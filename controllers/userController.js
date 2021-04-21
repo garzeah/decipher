@@ -1,5 +1,4 @@
 const sharp = require("sharp");
-const bcrypt = require("bcryptjs");
 const { Translate } = require("@google-cloud/translate").v2;
 const GOOGLE_APPLICATION_CREDENTIALS = JSON.parse(
 	process.env.GOOGLE_APPLICATION_CREDENTIALS
