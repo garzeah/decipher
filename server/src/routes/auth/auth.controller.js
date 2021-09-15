@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const User = require("../../models/User");
 
 // Age of cookie (7 days)
 const maxAge = 7 * 24 * 60 * 60;

@@ -4,9 +4,9 @@ const GOOGLE_APPLICATION_CREDENTIALS = JSON.parse(
   process.env.GOOGLE_APPLICATION_CREDENTIALS
 );
 
-const User = require("../models/User");
-const Conversation = require("../models/Conversation");
-const Message = require("../models/Message");
+const User = require("../../models/User");
+const Conversation = require("../../models/Conversation");
+const Message = require("../../models/Message");
 
 // Create a conversation
 const newConversationPost = async (req, res) => {

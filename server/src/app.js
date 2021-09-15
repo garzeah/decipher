@@ -2,9 +2,9 @@ const path = require("path");
 const express = require("express");
 
 // Routers
-const authRouter = require("./routes/authRoute");
-const userRouter = require("./routes/userRoute");
-const conversationRouter = require("./routes/conversationRoute");
+const authRouter = require("./routes/auth/auth.router");
+const userRouter = require("./routes/users/users.router");
+const conversationRouter = require("./routes/conversations/conversations.router");
 
 // Initializing express
 const app = express();

@@ -5,7 +5,7 @@ const GOOGLE_APPLICATION_CREDENTIALS = JSON.parse(
   process.env.GOOGLE_APPLICATION_CREDENTIALS
 );
 
-const User = require("../models/User");
+const User = require("../../models/User");
 
 // Fetching all profiles and your profile
 const fetchAllProfilesGet = async (req, res) => {

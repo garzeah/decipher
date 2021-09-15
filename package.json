@@ -1,35 +1,24 @@
 {
-  "name": "server",
+  "name": "decipher",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "engines": {
-    "node": "12.16.2",
-    "npm": "6.14.7"
-  },
   "scripts": {
-    "start": "node server.js",
-    "server": "nodemon server.js",
-    "client": "npm run start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "install-server": "npm install --prefix server",
+    "install-client": "npm install --prefix client",
+    "install": "npm run install-server && npm run install-client",
+    "server": "npm run dev --prefix server",
+    "client": "npm start --prefix client",
+    "dev": "npm run server & npm run client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/garzeah/decipher.git"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "axios": "^0.21.1",
-    "bcryptjs": "^2.4.3",
-    "concurrently": "^5.3.0",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.11.11",
-    "mongoose-unique-validator": "^2.0.3",
-    "multer": "^1.4.2",
-    "sharp": "^0.27.0",
-    "validator": "^13.5.2"
+  "bugs": {
+    "url": "https://github.com/garzeah/decipher/issues"
   },
-  "devDependencies": {
-    "nodemon": "^2.0.7"
-  }
+  "homepage": "https://github.com/garzeah/decipher#readme"
 }
