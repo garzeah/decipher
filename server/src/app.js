@@ -6,7 +6,7 @@ const authRouter = require("./routes/auth/auth.router");
 const userRouter = require("./routes/users/users.router");
 const conversationRouter = require("./routes/conversations/conversations.router");
 
-// Initializing express
+// Initializing Express
 const app = express();
 
 // Initializing Middlewares
