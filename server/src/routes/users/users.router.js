@@ -17,7 +17,7 @@ const upload = multer({
   }
 });
 
-const User = require("../../models/User");
+const User = require("../../models/user.model");
 const verifyToken = require("../../middlewares/protect");
 
 // Retrieve all profiles
