@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const User = require("../models/user.model");
 
 // Generates a JWT
 const generateAuthToken = (email) => {
@@ -12,4 +13,17 @@ const hash = async (str) => {
   return await bcrypt.hash(str, 8);
 };
 
-module.exports = { generateAuthToken, hash };
+// Verifies login information
+const verifyCredentials = async (email, password) => {
+  // Checking if user exists
+  const user = await User.findByEmail(email);
+  if (!user) throw new Error("Invalid login information");
+
+  // Checking if credentials match
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) throw new Error("Invalid login information");
+
+  return user;
+};
+
+module.exports = { generateAuthToken, hash, verifyCredentials };

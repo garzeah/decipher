@@ -1,14 +1,19 @@
 {
   "name": "decipher",
   "version": "1.0.0",
-  "description": "<!-- PROJECT LOGO --> <br /> <p align=\"center\">   <!-- <a href=\"https://github.com/garzeah/restaurant-tinder\">     <img src=\"src/assets/images/desktopLogo.png\" alt=\"Decipher Logo\">   </a> -->",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "install-server": "npm install --prefix server",
+    "install-client": "npm install --prefix client",
+    "install": "npm run install-server && npm run install-client",
+    "server": "npm run server --prefix server",
+    "client": "npm start --prefix client",
+    "dev": "npm run server & npm run client"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/garzeah/decipher.git"
+    "url": "https://github.com/garzeah/decipher.git"
   },
   "author": "",
   "license": "ISC",

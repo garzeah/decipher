@@ -23,8 +23,8 @@ A real-time messaging application that allows users to converse with anyone in a
 - React
 - Node
 - Express
-- Mongo
-- Socket.io
+- PostgreSQL
+- Socket.IO
 - Google Translate API
 
 ### Installation

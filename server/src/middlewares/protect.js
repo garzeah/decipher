@@ -2,8 +2,8 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../models/user.model");
 
-// Protecting routes w/ JWT
-const verifyToken = (req, res, next) => {
+// Verifies a user's JWT
+const protect = (req, res, next) => {
   const token = req.cookies.jwt;
 
   // Check if JWT exists & is verified
@@ -11,19 +11,15 @@ const verifyToken = (req, res, next) => {
     jwt.verify(
       token,
       process.env.ACCESS_TOKEN_SECRET,
-      async (err, decodedToken) => {
-        if (err) {
-          res.status(404).send();
-        } else {
-          const user = await User.findById({ _id: decodedToken._id });
-          req.user = user;
-          next();
-        }
+      async (error, decodedToken) => {
+        if (error) res.sendStatus(404);
+
+        const user = await User.findByEmail(decodedToken.email);
+        req.user = user;
+        next();
       }
     );
-  } else {
-    res.status(404).send();
-  }
+  } else res.sendStatus(404);
 };
 
-module.exports = verifyToken;
+module.exports = protect;

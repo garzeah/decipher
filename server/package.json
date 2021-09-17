@@ -10,6 +10,7 @@
   "scripts": {
     "start": "node src/server.js",
     "server": "nodemon src/server.js",
+    "migrate": "node-pg-migrate",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "",
