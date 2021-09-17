@@ -26,7 +26,7 @@
     "node-pg-migrate": "^5.10.0",
     "pg": "^8.7.1",
     "sharp": "^0.27.0",
-    "validator": "^13.5.2"
+    "validator": "^13.6.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"

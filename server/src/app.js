@@ -2,9 +2,7 @@ const path = require("path");
 const express = require("express");
 
 // Routers
-const authRouter = require("./routes/auth/auth.router");
-const userRouter = require("./routes/users/users.router");
-const conversationRouter = require("./routes/conversations/conversations.router");
+const api = require("./routes/api");
 
 // Initializing Express
 const app = express();
@@ -13,9 +11,7 @@ const app = express();
 app.use(express.json());
 
 // Endpoints
-app.use(authRouter);
-app.use(userRouter);
-app.use(conversationRouter);
+app.use("/api/v1", api);
 
 // For Heroku production
 if (process.env.NODE_ENV === "production") {

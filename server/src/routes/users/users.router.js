@@ -18,25 +18,25 @@ const upload = multer({
 });
 
 const User = require("../../models/user.model");
-const verifyToken = require("../../middlewares/protect");
+const protect = require("../../middlewares/protect");
 
 // Retrieve all profiles
-router.get("/api/users", verifyToken, async (req, res) => {
+router.get("/", protect, async (req, res) => {
   // Retrieves all user profiles and omits their id
   const users = await User.find({}, { _id: 0 });
   res.send(users);
 });
 
 // Retrieve your own profile
-router.get("/api/users/me", verifyToken, async (req, res) => {
+router.get("/me", protect, async (req, res) => {
   const user = await User.findById({ _id: req.user._id });
   res.send(user);
 });
 
 // Upload Avatar
 router.post(
-  "/api/users/me/avatar",
-  verifyToken,
+  "/me/avatar",
+  protect,
   upload.single("avatar"),
   async (req, res) => {
     // Using sharp to convert image to png, and resize it to 250x250
@@ -55,7 +55,7 @@ router.post(
 );
 
 // Fetch Avatar
-router.get("/api/users/:id/avatar", verifyToken, async (req, res) => {
+router.get("/:id/avatar", protect, async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
 
