@@ -6,8 +6,6 @@ const socketIO = (server) => {
 
   // Socket.io related code
   io.on("connection", (socket) => {
-    console.log("Server has connected to Socket.IO");
-
     // Means message was successfully sent
     socket.on("messageToServer", (status) => {
       // Returning true to all clients so we can update their state
