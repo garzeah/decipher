@@ -3,8 +3,8 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/user.model");
 
 // Generates a JWT
-const generateAuthToken = (email) => {
-  const token = jwt.sign({ email }, process.env.ACCESS_TOKEN_SECRET);
+const generateAuthToken = (userId) => {
+  const token = jwt.sign({ userId }, process.env.ACCESS_TOKEN_SECRET);
   return token;
 };
 

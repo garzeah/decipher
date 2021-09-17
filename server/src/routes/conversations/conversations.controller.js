@@ -1,9 +1,5 @@
 const cryptoRandomString = require("crypto-random-string");
 const { Translate } = require("@google-cloud/translate").v2;
-const GOOGLE_APPLICATION_CREDENTIALS = JSON.parse(
-  process.env.GOOGLE_APPLICATION_CREDENTIALS
-);
-
 const User = require("../../models/User");
 const Conversation = require("../../models/Conversation");
 const Message = require("../../models/Message");
@@ -104,7 +100,8 @@ const fetchAllMyConversationsGet = async (req, res) => {
 const fetchConversationGet = async (req, res) => {
   // Pulling out our conversation id and whether to translate or not
   const { id, translate } = req.query;
-
+  const GOOGLE_CREDENTIALS = await JSON.parse(process.env.GOOGLE_CREDENTIALS);
+  d;
   try {
     // Finding all messages associated with a specific conversation
     let messages = await Message.find({ conversationID: id });
@@ -135,8 +132,8 @@ const fetchConversationGet = async (req, res) => {
 
       // Otherwise, we translate remaining messages
       const googleTranslate = new Translate({
-        credentials: GOOGLE_APPLICATION_CREDENTIALS,
-        projectId: GOOGLE_APPLICATION_CREDENTIALS.project_id
+        credentials: GOOGLE_CREDENTIALS,
+        projectId: GOOGLE_CREDENTIALS.project_id
       });
 
       for (key in filteredRecipientMessages) {

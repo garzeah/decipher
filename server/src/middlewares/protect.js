@@ -14,7 +14,7 @@ const protect = (req, res, next) => {
       async (error, decodedToken) => {
         if (error) res.sendStatus(404);
 
-        const user = await User.findByEmail(decodedToken.email);
+        const user = await User.findById(decodedToken.id);
         req.user = user;
         next();
       }
