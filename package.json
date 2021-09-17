@@ -9,7 +9,8 @@
     "install": "npm run install-server && npm run install-client",
     "server": "npm run server --prefix server",
     "client": "npm start --prefix client",
-    "dev": "npm run server & npm run client"
+    "dev": "npm run server & npm run client",
+    "migrate": "npm run migrate --prefix server"
   },
   "repository": {
     "type": "git",

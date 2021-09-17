@@ -1,56 +1,55 @@
 const sharp = require("sharp");
-const bcrypt = require("bcryptjs");
-const { Translate } = require("@google-cloud/translate").v2;
-const GOOGLE_APPLICATION_CREDENTIALS = JSON.parse(
-  process.env.GOOGLE_APPLICATION_CREDENTIALS
-);
-
-const User = require("../../models/User");
+const { hash } = require("../../utils/auth.utils");
+const User = require("../../models/user.model");
 
 // Fetching all profiles and your profile
-const fetchAllProfilesGet = async (req, res) => {
+const fetchAllProfiles = async (req, res) => {
   try {
-    // Retrieves all user profiles and omits their id
-    const users = await User.find({
-      _id: { $nin: req.user._id }
-    });
-    res.status(200).send(users);
+    const users = await User.find();
+    return res.send(users);
   } catch (err) {
-    res.status(500).send(err);
+    return res.status(500).send(err);
   }
 };
 
-const fetchMyProfileGet = async (req, res) => {
-  try {
-    const user = await User.findById({ _id: req.user._id });
-    res.status(200).send(user);
-  } catch (err) {
-    res.status(500).send(err);
-  }
+const fetchMyProfile = (req, res) => {
+  // If user is logged in...
+  if (!req.user) return res.sendStatus(404);
+
+  // Otherwise, user is not found and they have to register or login
+  return res.send(req.user);
 };
 
 // Update my profile
-const updateMyProfile = async (req, res) => {
+const updateProfile = async (req, res) => {
+  const { displayName, email, password, language } = req.body;
+
+  if (!displayName || !email || !password || !language) {
+    return res
+      .status(406)
+      .send({ error: "Please complete the form to update your profile" });
+  }
+
   try {
-    // Prevents users entering whitespace
-    Object.values(req.body).forEach((value) => {
-      if (value.trim() === "") res.status(406).send();
-    });
+    // Updating the hash on our password in case it has changed
+    const newPassword = await hash(password);
 
-    // Hashing our updated password
-    // if (req.body.password)
-    // 	req.body.password = await bcrypt.hash(req.body.password, 8);
+    const updatedUser = await User.update(
+      req.user.id,
+      displayName,
+      email,
+      newPassword,
+      req.user.avatar,
+      language
+    );
 
-    await User.findOneAndUpdate({ _id: req.user._id }, req.body);
-
-    res.status(201).send();
-  } catch (err) {
-    res.status(500).send(err);
+    return res.status(202).send(updatedUser);
+  } catch (error) {
+    return res.status(500).send(error.message);
   }
 };
 
-// Uploading and fetching our avatar
-const uploadAvatarPost = async (req, res) => {
+const uploadAvatar = async (req, res) => {
   try {
     // Using sharp to convert image to png, and resize it to 250x250
     const buffer = await sharp(req.file.buffer)
@@ -58,51 +57,22 @@ const uploadAvatarPost = async (req, res) => {
       .png()
       .toBuffer();
 
+    const user = await User.findById(req.user.id);
+    if (!user) return res.sendStatus(401);
+
     // Saving a user's avatar
-    await User.findByIdAndUpdate({ _id: req.user._id }, { avatar: buffer });
-    res.status(201).send();
-  } catch (err) {
-    console.log(err);
-    res.status(400).send({ error: err.message });
-  }
-};
+    const { id, displayName, email, password, language } = user;
+    await User.update(id, displayName, email, password, buffer, language);
 
-const fetchMyAvatarGet = async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-
-    // If no user or avatar exists
-    if (!user || !user.avatar) throw new Error();
-
-    res.set("Content-Type", "image/png");
-    res.send(user.avatar);
-  } catch (err) {
-    res.sendStatus(404);
-  }
-};
-
-// Fetches possible languages that can be used for translating
-const fetchLanguages = async (req, res) => {
-  try {
-    // Creates a client
-    const translate = new Translate({
-      credentials: GOOGLE_APPLICATION_CREDENTIALS,
-      projectId: GOOGLE_APPLICATION_CREDENTIALS.project_id
-    });
-    // Lists available translation language with their names in English (the default).
-    const [languages] = await translate.getLanguages();
-
-    res.status(200).send(languages);
+    return res.sendStatus(202);
   } catch (error) {
-    res.sendStatus(404);
+    return res.status(500).send({ error: error.message });
   }
 };
 
 module.exports = {
-  fetchAllProfilesGet,
-  fetchMyProfileGet,
-  updateMyProfile,
-  uploadAvatarPost,
-  fetchMyAvatarGet,
-  fetchLanguages
+  fetchAllProfiles,
+  fetchMyProfile,
+  uploadAvatar,
+  updateProfile
 };

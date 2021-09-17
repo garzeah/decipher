@@ -9,7 +9,7 @@ exports.up = (pgm) => {
       username VARCHAR(15),
       email VARCHAR(30),
       password VARCHAR,
-      avatar VARCHAR(200),
+      avatar BYTEA,
       created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
     );
   `);

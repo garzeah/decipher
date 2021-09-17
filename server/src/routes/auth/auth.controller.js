@@ -20,26 +20,26 @@ const register = async (req, res) => {
     return res.status(406).send({ error: "Please enter a valid email" });
   }
 
-  // Checking is email exists
-  const user = await User.findByEmail(email);
-  if (user) {
-    return res
-      .status(405)
-      .send({ error: "Account with this email already exists" });
-  }
-
-  // Creating a JWT and checking if it exists
-  const token = generateAuthToken(email);
-  if (!token) {
-    return res.status(500).send({ error: "Unable to create a token" });
-  }
-
-  // Hashing a user's password
-  const hashedPassword = await hash(password);
-
-  // Saving our user and sending them a JWT
   try {
-    const user = await User.insert(
+    // Checking is email exists
+    const isExists = await User.findByEmail(email);
+    if (isExists) {
+      return res
+        .status(405)
+        .send({ error: "Account with this email already exists" });
+    }
+
+    // Creating a JWT and checking if it exists
+    const token = generateAuthToken(email);
+    if (!token) {
+      return res.status(500).send({ error: "Unable to create a token" });
+    }
+
+    // Hashing a user's password
+    const hashedPassword = await hash(password);
+
+    // Saving our user and sending them a JWT
+    const newUser = await User.insert(
       displayName,
       email,
       hashedPassword,
@@ -47,7 +47,7 @@ const register = async (req, res) => {
     );
 
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAgeOfCookie });
-    return res.status(201).send({ user });
+    return res.status(201).send({ newUser });
   } catch (error) {
     return res.status(400).send({ error: error.message });
   }
@@ -56,19 +56,19 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
 
-  // Verifying a user's credential
-  const user = await verifyCredentials(email, password);
-  if (!user) {
-    return res.status(401).send({ error: "Invalid login information" });
-  }
-
-  // Creating a JWT and checking if it exists
-  const token = generateAuthToken(email);
-  if (!token) {
-    return res.status(500).send({ error: "Unable to create a token" });
-  }
-
   try {
+    // Verifying a user's credential
+    const user = await verifyCredentials(email, password);
+    if (!user) {
+      return res.status(401).send({ error: "Invalid login information" });
+    }
+
+    // Creating a JWT and checking if it exists
+    const token = generateAuthToken(email);
+    if (!token) {
+      return res.status(500).send({ error: "Unable to create a token" });
+    }
+
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAgeOfCookie });
     res.status(201).json({ user });
   } catch (error) {
@@ -81,12 +81,4 @@ const logout = (req, res) => {
   res.sendStatus(200);
 };
 
-const isLoggedIn = (req, res) => {
-  // If user is logged in...
-  if (!req.user) return res.sendStatus(404);
-
-  // Otherwise, user is not found and they have to register or login
-  return res.sendStatus(200);
-};
-
-module.exports = { register, login, logout, isLoggedIn };
+module.exports = { register, login, logout };

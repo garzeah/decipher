@@ -9,9 +9,7 @@ const generateAuthToken = (email) => {
 };
 
 // Hashes information
-const hash = async (str) => {
-  return await bcrypt.hash(str, 8);
-};
+const hash = async (str) => await bcrypt.hash(str, 8);
 
 // Verifies login information
 const verifyCredentials = async (email, password) => {
