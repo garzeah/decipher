@@ -12,14 +12,14 @@ const protect = (req, res, next) => {
       token,
       process.env.ACCESS_TOKEN_SECRET,
       async (error, decodedToken) => {
-        if (error) res.sendStatus(404);
+        if (error) return res.sendStatus(404);
 
-        const user = await User.findByEmail(decodedToken.email);
+        const user = await User.findById(decodedToken.userId);
         req.user = user;
         next();
       }
     );
-  } else res.sendStatus(404);
+  } else return res.sendStatus(404);
 };
 
 module.exports = protect;

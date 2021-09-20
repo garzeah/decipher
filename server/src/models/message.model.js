@@ -9,12 +9,12 @@ const Message = {
       `SELECT *
         FROM messages
         WHERE conversation_id = $1
-        ORDER BY created_at DESC
+        ORDER BY created_at DESC;
       `,
       [conversationId]
     );
 
-    return toCamelCase(rows)[0];
+    return toCamelCase(rows);
   },
 
   // Creates a new message

@@ -29,12 +29,6 @@ const register = async (req, res) => {
         .send({ error: "Account with this email already exists" });
     }
 
-    // Creating a JWT and checking if it exists
-    const token = generateAuthToken(email);
-    if (!token) {
-      return res.status(500).send({ error: "Unable to create a token" });
-    }
-
     // Hashing a user's password
     const hashedPassword = await hash(password);
 
@@ -45,6 +39,12 @@ const register = async (req, res) => {
       hashedPassword,
       language
     );
+
+    // Creating a JWT and checking if it exists
+    const token = generateAuthToken(newUser.id);
+    if (!token) {
+      return res.status(500).send({ error: "Unable to create a token" });
+    }
 
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAgeOfCookie });
     return res.status(201).send({ newUser });
@@ -63,8 +63,8 @@ const login = async (req, res) => {
       return res.status(401).send({ error: "Invalid login information" });
     }
 
-    // Creating a JWT and checking if it exists
-    const token = generateAuthToken(email);
+    // Creating a new JWT for user logging in
+    const token = generateAuthToken(user.id);
     if (!token) {
       return res.status(500).send({ error: "Unable to create a token" });
     }
