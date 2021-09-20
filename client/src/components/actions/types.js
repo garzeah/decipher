@@ -1,2 +1,7 @@
-export const CHECK_USER = "CHECK_USER";
-export const USER_LOGIN = "USER_LOGIN";
+const CHECK_USER = "CHECK_USER";
+const USER_LOGIN = "USER_LOGIN";
+
+module.exports = {
+  CHECK_USER,
+  USER_LOGIN
+};

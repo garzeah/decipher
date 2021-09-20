@@ -1,6 +1,7 @@
 const path = require("path");
 const express = require("express");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 // Routers
 const api = require("./routes/api");
@@ -11,6 +12,11 @@ const app = express();
 // Initializing Middlewares
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+  cors({
+    origin: "http://localhost:3000"
+  })
+);
 
 // Endpoints
 app.use("/api/v1", api);
