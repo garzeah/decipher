@@ -1,20 +1,16 @@
 import React, { useEffect } from "react";
 
-import DisplayAvatar from "../../DisplayAvatar";
+import DisplayAvatar from "../../DisplayAvatar/DisplayAvatar";
 import Settings from "./Settings";
-import ChangeAvatar from "../modals/ChangeAvatar";
+import ChangeAvatar from "./ChangeAvatar";
 import "../Sidebar.css";
 
+import { retrieveMyProfile } from "../../../api/users";
+
 const SidebarHeader = ({ user, setUser }) => {
-  // Retrieves user information
   useEffect(() => {
-    const retrieveUserInformation = async () => {
-      // Fetching user data
-      let data = await fetch("/api/users/me");
-      data = await data.json();
-      setUser(data);
-    };
-    retrieveUserInformation();
+    retrieveMyProfile(setUser);
+    console.log("hi");
   }, [setUser]);
 
   return (

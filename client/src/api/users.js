@@ -1,5 +1,16 @@
 const url = require("../utilities/environment");
 
+const retrieveMyProfile = async (setUser) => {
+  const response = await fetch(`${url}/users/me`, {
+    method: "GET",
+    credentials: "include"
+  });
+  console.log(response);
+  const user = await response.json();
+
+  setUser(user);
+};
+
 const register = async (inputValues, history, setSnackbar) => {
   const response = await fetch(`${url}/auth/register`, {
     method: "POST",
@@ -8,12 +19,11 @@ const register = async (inputValues, history, setSnackbar) => {
   });
 
   // Redirect them to messenger page
-  if (response.status === 201) history.push("/messenger");
+  if (response.ok) history.push("/messenger");
+  else {
+    // In the event we get an error
+    const data = await response.json();
 
-  // In the event we get an error
-  const data = await response.json();
-
-  if (response.status !== 201) {
     setSnackbar({
       open: true,
       severity: "error",
@@ -32,4 +42,4 @@ const login = async (formValues) => {
   return response;
 };
 
-module.exports = { register, login };
+module.exports = { retrieveMyProfile, register, login };

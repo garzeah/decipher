@@ -1,6 +1,6 @@
 import React from "react";
 
-import DisplayAvatar from "../../DisplayAvatar";
+import DisplayAvatar from "../../DisplayAvatar/DisplayAvatar";
 import "../Sidebar.css";
 
 const PreviewConvo = ({

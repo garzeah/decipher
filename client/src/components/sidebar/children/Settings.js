@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import CancelIcon from "@mui/icons-material/Cancel";
 
-import EditProfile from "../modals/EditProfile";
+import EditProfile from "./EditProfile";
 
 function getModalStyle() {
   const top = 50;

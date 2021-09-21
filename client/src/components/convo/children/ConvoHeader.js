@@ -1,30 +1,30 @@
 import React from "react";
 import { Switch } from "@material-ui/core";
 
-import DisplayAvatar from "../../DisplayAvatar";
+import DisplayAvatar from "../../DisplayAvatar/DisplayAvatar";
 import "../Convo.css";
 
 const ConvoHeader = ({ currConvo, setIsTranslated }) => {
-	return (
-		<div className="convoHeader">
-			<div>
-				<DisplayAvatar
-					id={currConvo._id}
-					user={currConvo}
-					width={6}
-					height={6}
-				/>
-				<h2 style={{ marginLeft: "15px" }}>{currConvo.displayName}</h2>
-			</div>
-			<div>
-				<p>Original Language</p>
-				<Switch
-					onChange={(e) => setIsTranslated(!e.target.checked)}
-					color="primary"
-				/>
-			</div>
-		</div>
-	);
+  return (
+    <div className="convoHeader">
+      <div>
+        <DisplayAvatar
+          id={currConvo._id}
+          user={currConvo}
+          width={6}
+          height={6}
+        />
+        <h2 style={{ marginLeft: "15px" }}>{currConvo.displayName}</h2>
+      </div>
+      <div>
+        <p>Original Language</p>
+        <Switch
+          onChange={(e) => setIsTranslated(!e.target.checked)}
+          color="primary"
+        />
+      </div>
+    </div>
+  );
 };
 
 export default ConvoHeader;

@@ -13,6 +13,7 @@ const fetchAllProfiles = async (req, res) => {
 };
 
 const fetchMyProfile = (req, res) => {
+  console.log("lol");
   // If user is logged in...
   if (!req.user) return res.sendStatus(404);
 

@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { connect } from "react-redux";
 
 import { Button, TextField, Box, Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 
-import { checkUser, userLogin } from "../components/actions/";
-import messengerIcon from "../assets/images/message.png";
+import messengerIcon from "../../assets/images/message.png";
 import "./RegisterLogin.css";
 
 const Alert = (props) => <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -158,11 +156,4 @@ const Login = ({ isLoggedIn, snackbarMessage, checkUser, userLogin }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    isLoggedIn: state.user.isLoggedIn,
-    snackbarMessage: state.user.snackbarMessage
-  };
-};
-
-export default connect(mapStateToProps, { checkUser, userLogin })(Login);
+export default Login;

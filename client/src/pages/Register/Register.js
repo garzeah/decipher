@@ -9,13 +9,11 @@ import {
   InputLabel,
   NativeSelect
 } from "@material-ui/core";
-import { register } from "../api/users";
+import { register } from "../../api/users";
 import MuiAlert from "@material-ui/lab/Alert";
 import * as EmailValidator from "email-validator";
-import { connect } from "react-redux";
-import { fetchLanguages } from "../api/google";
-import { checkUser } from "../components/actions";
-import messengerIcon from "../assets/images/message.png";
+import { fetchLanguages } from "../../api/google";
+import messengerIcon from "../../assets/images/message.png";
 import "./RegisterLogin.css";
 
 function Alert(props) {
@@ -290,14 +288,4 @@ const Register = ({ isLoggedIn, checkUser }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return { isLoggedIn: state.user.isLoggedIn };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    checkUser: () => dispatch(checkUser())
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default Register;
